@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CapyStats: Aventuras Estatísticas no Pantanal</title>
+  <meta name="description" content="Aprenda Média, Mediana, Moda, Desvio Padrão e Probabilidade em um jogo web com capivaras e natureza!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Ambient Nature Elements -->
+  <div class="nature-bg">
+    <div class="sun"></div>
+    <div class="clouds">
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+    </div>
+    <div class="mountains"></div>
+    <div class="river-layer"></div>
+    <div class="floating-lily lily-1">🪷</div>
+    <div class="floating-lily lily-2">🌿</div>
+    <div class="floating-lily lily-3">🪷</div>
+  </div>
+
+  <div id="game-container">
+    <!-- Header / Navbar -->
+    <header class="game-header">
+      <div class="brand">
+        <div class="capy-avatar">
+          <svg viewBox="0 0 100 90" class="capy-svg">
+            <ellipse cx="50" cy="55" rx="36" ry="28" fill="#8d5b36"/>
+            <circle cx="70" cy="40" r="22" fill="#9c663b"/>
+            <ellipse cx="80" cy="45" rx="14" ry="12" fill="#784725"/>
+            <!-- snout & nose -->
+            <ellipse cx="86" cy="44" rx="4" ry="3" fill="#2d1808"/>
+            <!-- eye -->
+            <ellipse cx="70" cy="35" rx="3.5" ry="4" fill="#2d1808"/>
+            <circle cx="69" cy="34" r="1.2" fill="#fff"/>
+            <!-- ear -->
+            <ellipse cx="60" cy="24" rx="5" ry="7" fill="#6d3e1e" transform="rotate(-15 60 24)"/>
+            <!-- cute straw hat -->
+            <polygon points="50,22 84,22 76,10 58,10" fill="#f4a261"/>
+            <ellipse cx="67" cy="22" rx="20" ry="4" fill="#e76f51"/>
+            <!-- cheek blush -->
+            <circle cx="74" cy="44" r="3.5" fill="#f28482" opacity="0.6"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="game-title">CapyStats</h1>
+          <p class="game-subtitle">O Guardião Estatístico do Pantanal</p>
+        </div>
+      </div>
+
+      <div class="hud-stats">
+        <div class="hud-badge" title="Pontos de Sabedoria da Capivara">
+          <span class="hud-icon">⭐</span>
+          <span id="score-display">0</span> pts
+        </div>
+        <div class="hud-badge" title="Nível de Maestria">
+          <span class="hud-icon">🏆</span>
+          <span id="rank-display">Filhote Curioso</span>
+        </div>
+        <button id="sound-btn" class="hud-btn" title="Alternar Som" aria-label="Som">🔊</button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="mode-tabs">
+      <button class="tab-btn active" data-tab="adventure">🗺️ Modo Aventura (Missões)</button>
+      <button class="tab-btn" data-tab="lab">🧪 Laboratório do Pantanal</button>
+      <button class="tab-btn" data-tab="glossary">📖 Guia da Capivara</button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- ADVENTURE VIEW -->
+      <section id="tab-adventure" class="tab-content active">
+        <!-- Level Selector Grid -->
+        <div class="levels-container">
+          <button class="level-card active" data-level="1">
+            <span class="lvl-number">Fase 1</span>
+            <span class="lvl-icon">🍉</span>
+            <span class="lvl-title">Banquete da Manada</span>
+            <span class="lvl-concept">Média, Mediana e Moda</span>
+            <span class="lvl-stars" id="stars-lvl-1">⭐⭐⭐</span>
+          </button>
+
+          <button class="level-card" data-level="2">
+            <span class="lvl-number">Fase 2</span>
+            <span class="lvl-icon">🛶</span>
+            <span class="lvl-title">A Jangada do Rio</span>
+            <span class="lvl-concept">Amplitude & Desvio Padrão</span>
+            <span class="lvl-stars" id="stars-lvl-2">⭐⭐⭐</span>
+          </button>
+
+          <button class="level-card" data-level="3">
+            <span class="lvl-number">Fase 3</span>
+            <span class="lvl-icon">🪷</span>
+            <span class="lvl-title">Lagoa das Probabilidades</span>
+            <span class="lvl-concept">Amostragem & Chances</span>
+            <span class="lvl-stars" id="stars-lvl-3">⭐⭐⭐</span>
+          </button>
+
+          <button class="level-card" data-level="4">
+            <span class="lvl-number">Fase 4</span>
+            <span class="lvl-icon">🌧️</span>
+            <span class="lvl-title">A Dança da Chuva</span>
+            <span class="lvl-concept">Curva Normal & Regressão</span>
+            <span class="lvl-stars" id="stars-lvl-4">⭐⭐⭐</span>
+          </button>
+        </div>
+
+        <!-- Dynamic Mission Board -->
+        <div class="mission-board">
+          <div class="mission-header">
+            <div>
+              <span class="mission-tag" id="mission-tag">FASE 1: MISSÃO 1/3</span>
+              <h2 class="mission-title" id="mission-title">O Compartilhamento Justo de Frutas</h2>
+            </div>
+            <div class="streak-box">
+              <span>Sequência:</span>
+              <span id="streak-counter">🔥 0</span>
+            </div>
+          </div>
+
+          <!-- Capivara Teacher Dialogue -->
+          <div class="capy-dialogue">
+            <div class="dialogue-capy">
+              <span class="capy-speech-bubble" id="capy-hint">
+                "Olá! Sou a Dona Capi. Vamos ajudar o bando a organizar os alimentos com o poder da estatística!"
+              </span>
+            </div>
+          </div>
+
+          <!-- Interactive Game Arena -->
+          <div class="game-arena" id="game-arena">
+            <!-- Injected by game.js according to level -->
+          </div>
+
+          <!-- Action & Verification Controls -->
+          <div class="controls-bar" id="controls-bar">
+            <!-- Buttons injected by game.js -->
+          </div>
+
+          <!-- Educational Explanation Dropdown -->
+          <div class="explanation-box" id="explanation-box" style="display: none;">
+            <div class="explanation-header">
+              <span class="exp-icon">💡</span>
+              <h4>Explicação Didática da Capivara:</h4>
+            </div>
+            <div id="explanation-text" class="exp-content"></div>
+            <button id="next-question-btn" class="btn primary-btn">Próximo Desafio ➔</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- LAB / PLAYGROUND VIEW -->
+      <section id="tab-lab" class="tab-content">
+        <div class="lab-container">
+          <div class="lab-header">
+            <h2>🧪 Laboratório Estatístico da Natureza</h2>
+            <p>Crie sua própria manada de capivaras, ajuste os pesos e veja a distribuição, média, mediana e o desvio padrão em tempo real no gráfico!</p>
+          </div>
+
+          <div class="lab-grid">
+            <div class="lab-controls card">
+              <h3>Adicionar Capivara à Manada</h3>
+              <div class="input-group">
+                <label for="capy-weight-input">Peso da Capivara (kg): <span id="weight-val" class="bold">50 kg</span></label>
+                <input type="range" id="capy-weight-input" min="10" max="90" value="50" step="1" />
+              </div>
+              <div class="lab-btn-row">
+                <button id="add-capy-btn" class="btn success-btn">➕ Adicionar ao Bando</button>
+                <button id="random-herd-btn" class="btn secondary-btn">🎲 Gerar Bando Aleatório</button>
+                <button id="clear-herd-btn" class="btn danger-btn">🧹 Limpar</button>
+              </div>
+
+              <div class="stats-summary-card">
+                <h4>📊 Estatísticas da Manada:</h4>
+                <div class="stat-row"><span>Tamanho da Amostra (n):</span> <strong id="stat-n">0</strong></div>
+                <div class="stat-row"><span>Média (&mu; ou x&#772;):</span> <strong id="stat-mean">0 kg</strong></div>
+                <div class="stat-row"><span>Mediana:</span> <strong id="stat-median">0 kg</strong></div>
+                <div class="stat-row"><span>Moda:</span> <strong id="stat-mode">-</strong></div>
+                <div class="stat-row"><span>Amplitude (Máx - Mín):</span> <strong id="stat-range">0 kg</strong></div>
+                <div class="stat-row"><span>Desvio Padrão (&sigma;):</span> <strong id="stat-std">0 kg</strong></div>
+              </div>
+            </div>
+
+            <div class="lab-visualizer card">
+              <div class="chart-header">
+                <h3>Visualização da Distribuição (Histograma & Sino de Gauss)</h3>
+                <span class="badge-nature">Tempo Real</span>
+              </div>
+              <canvas id="lab-canvas" width="600" height="340"></canvas>
+              <div class="legend-row">
+                <span class="legend-item"><span class="color-box bar-color"></span> Frequência das Capivaras</span>
+                <span class="legend-item"><span class="color-box mean-color"></span> Linha da Média</span>
+                <span class="legend-item"><span class="color-box median-color"></span> Linha da Mediana</span>
+                <span class="legend-item"><span class="color-box sd-color"></span> Intervalo &plusmn; 1 Desvio Padrão</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GLOSSARY VIEW -->
+      <section id="tab-glossary" class="tab-content">
+        <div class="glossary-grid">
+          <div class="glossary-card">
+            <div class="g-icon">🍉</div>
+            <h3>Média Aritmética (&mu; ou x&#772;)</h3>
+            <p>É a soma de todos os valores dividida pelo número total de elementos. Representa a distribuição igualitária caso todos recebessem o mesmo.</p>
+            <code>Média = (x₁ + x₂ + ... + xₙ) / n</code>
+          </div>
+
+          <div class="glossary-card">
+            <div class="g-icon">🛶</div>
+            <h3>Mediana</h3>
+            <p>O número exatamente no meio quando ordenamos os dados do menor para o maior. É resistente a valores extremos (outliers)!</p>
+            <code>Em [2, 3, 5, 8, 9] ➔ Mediana = 5</code>
+          </div>
+
+          <div class="glossary-card">
+            <div class="g-icon">🪷</div>
+            <h3>Moda</h3>
+            <p>O valor que aparece com maior frequência no conjunto de dados. Se nenhum se repete, dizemos que é amodal.</p>
+            <code>Em [4, 7, 7, 7, 9] ➔ Moda = 7</code>
+          </div>
+
+          <div class="glossary-card">
+            <div class="g-icon">📏</div>
+            <h3>Amplitude & Desvio Padrão (&sigma;)</h3>
+            <p>A amplitude é a distância entre o maior e o menor valor. O <strong>Desvio Padrão</strong> mede o quanto os dados se afastam da média: quanto menor, mais homogêneo e previsível é o grupo!</p>
+            <code>Desvio Padrão = √[ Σ(xᵢ - μ)² / n ]</code>
+          </div>
+
+          <div class="glossary-card">
+            <div class="g-icon">🎲</div>
+            <h3>Probabilidade P(E)</h3>
+            <p>A chance de um evento acontecer, variando de 0 (impossível) a 1 (100% de certeza). É calculada dividindo os casos favoráveis pelos casos possíveis.</p>
+            <code>P = Casos Favoráveis / Casos Possíveis</code>
+          </div>
+
+          <div class="glossary-card">
+            <div class="g-icon">🔔</div>
+            <h3>Distribuição Normal (Curva Gaussiana)</h3>
+            <p>Muitas coisas na natureza (peso das capivaras, altura dos ipês) formam o formato de sino: a maioria fica perto da média, e valores extremos são raros.</p>
+            <code>Regra 68-95-99.7%</code>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Victory Modal -->
+    <div id="victory-modal" class="modal-overlay" style="display: none;">
+      <div class="modal-card">
+        <div class="confetti-holder" id="confetti-box"></div>
+        <div class="trophy-bounce">🏆</div>
+        <h2 id="victory-title">Incrível! Fase Concluída!</h2>
+        <p id="victory-desc">Você dominou os conceitos estatísticos e ajudou a comunidade de capivaras do Pantanal a prosperar!</p>
+        <div class="stars-award" id="victory-stars">⭐⭐⭐</div>
+        <div class="score-breakdown">
+          <span>Pontuação Total: <strong id="modal-final-score">0</strong></span>
+        </div>
+        <div class="modal-actions">
+          <button id="modal-next-btn" class="btn primary-btn">Próxima Fase ➔</button>
+          <button id="modal-restart-btn" class="btn secondary-btn">Jogar Novamente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
